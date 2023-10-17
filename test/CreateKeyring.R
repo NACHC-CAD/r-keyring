@@ -15,33 +15,27 @@ source("CreateKeyRing.R")
 source("DeleteKeyRing.R")
 
 # variables
-kr_name <- "databricks_example_keyring"
+kr_name <- "databricks_keyring"
 kr_service <- "production"
 kr_username <- "token"
 
 kb <- keyring::backend_file$new()
+
+# list existing keyrings (before)
 kb$keyring_list()
 
-# delete twice to ensure delete for non-exists works
+# delete existing
 delete_keyring(kr_name)
-delete_keyring(kr_name)
-
-# create the keyring
 create_keyring(kr_name,kr_service,kr_username)
 
-# delete twice to ensure delete for non-exists works
-delete_keyring(kr_name)
-delete_keyring(kr_name)
+# list existing keyrings (after)
+kb$keyring_list()
 
-# create the keyring
-create_keyring(kr_name,kr_service,kr_username)
-
-# get the password from the keyring
+# get the token
 keyring::backend_file$new()$get(
   service = kr_service,
   user = kr_username,
   keyring = kr_name
 )
-
 
 
